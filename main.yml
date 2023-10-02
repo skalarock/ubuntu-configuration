@@ -1,11 +1,48 @@
 ---
 - name: Configure host
   hosts: all
+  become: true
 
   pre_tasks:
     - name: update cache and upgrade
       apt: update_cache=yes upgrade=safe cache_valid_time=3600
-      become: true
 
   tasks:
+    - name: Install flatpak (missing in the distro)
+      apt:
+        name:
+          - flatpak
+
+    - name: Add the flathub flatpak repository remote to the user installation
+      community.general.flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+        method: user
+
+    - name: Install flatpaks (flathub)
+      community.general.flatpak:
+        remote: flathub
+        method: user
+        name:
+          - org.inkscape.Inkscape
+          - org.shotcut.Shotcut
+          - org.gimp.GIMP
+          - com.obsproject.Studio
+          - org.audacityteam.Audacity
+          - ch.protonmail.protonmail-bridge
+          - com.discordapp.Discord
+          - com.github.tchx84.Flatseal
+          - com.heroicgameslauncher.hgl
+          - com.valvesoftware.Steam
+          - io.github.RodZill4.Material-Maker
+          - md.obsidian.Obsidian
+          - org.blender.Blender
+          - org.keepassxc.KeePassXC
+          - org.mozilla.Thunderbird
+          - org.mozilla.firefox
+          - org.signal.Signal
+          - org.telegram.desktop
+          - org.godotengine.Godot
+
     - ping:

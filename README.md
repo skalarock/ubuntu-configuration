@@ -13,3 +13,27 @@ The playbook installs and configures most of the software I use on my machine wh
 2. Clone or download this repository to your local drive.
 
 ## Testing the playbook
+
+Testing is done via using Vagrant where `Vagrantfile` and a `test_vagrant.yml` files are used to test the configuration.
+
+- Install Vagrant by following the [documentation](https://developer.hashicorp.com/vagrant/docs/installation)
+
+- Create a Vagrant box and provision it
+
+  ```bash
+  vagrant up --provision
+  ```
+
+- Force destroy and recreate the box
+
+  ```bash
+  vagrant destroy --force && vagrant up --provision
+  ```
+
+> Vagrantfile will use `test_vagrant.yml` file as the `Ansible` entrypoint.
+>
+> Box name `generic/ubuntu2304` - <https://app.vagrantup.com/generic/boxes/ubuntu2304>
+>
+> Box link - <https://app.vagrantup.com/boxes/search>
+
+Here is link to install Vagrant with using [libvirt](https://developer.fedoraproject.org/tools/vagrant/vagrant-libvirt.html)
