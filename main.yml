@@ -2,8 +2,8 @@
 - name: Configure host
   hosts: all
   become: true
-  vars_file:
-    - vars.yml
+  vars_files:
+    - ./vars.yml
 
   pre_tasks:
     - name: Set hostname
@@ -11,14 +11,25 @@
         name: "{{ host_name }}"
         use: systemd
 
-    - name: Add repository vagrant
-      apt_repository:
-        repo: deb https://apt.releases.hashicorp.com lunar InRelease
+    - name: import the vagrant key
+      apt_key:
+        url: https://apt.releases.hashicorp.com/gpg
         state: present
 
-    - name: Add repository
+    - name: Add repository vagrant
       apt_repository:
-        repo: deb https://pkgs.tailscale.com/stable/ubuntu lunar InRelease
+        repo: "deb https://apt.releases.hashicorp.com lunar main"
+        state: present
+        update_cache: yes
+
+    - name: import the tailscale key
+      apt_key:
+        url: https://pkgs.tailscale.com/stable/ubuntu/mantic.noarmor.gpg
+        state: present
+
+    - name: Add repository tailscale
+      apt_repository:
+        repo: "deb https://pkgs.tailscale.com/stable/ubuntu lunar main"
         state: present
 
     - name: update cache and upgrade
@@ -72,6 +83,9 @@
           - podman
           - skopeo
           - buildah
+          - ansible
+          - tailscale
+          - vagrant
         state: present
 
     - name: Remove dependencies that are no longer required
