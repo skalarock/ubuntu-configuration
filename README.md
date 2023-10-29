@@ -36,4 +36,4 @@ Testing is done via using Vagrant where `Vagrantfile` and a `test_vagrant.yml` f
 >
 > Box link - <https://app.vagrantup.com/boxes/search>
 
-Here is link to install Vagrant with using [libvirt](https://developer.fedoraproject.org/tools/vagrant/vagrant-libvirt.html)
+Here is link to install Vagrant with using [libvirt](https://vagrant-libvirt.github.io/vagrant-libvirt/)
