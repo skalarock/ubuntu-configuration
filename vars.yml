@@ -14,9 +14,9 @@ dotfiles_repo_local_destination: "~/dotfiles"
 dotfiles_repo: "https://github.com/skalarock/dotfiles.git"
 dotfiles_repo_version: main
 dotfiles_files:
+  - .vimrc
   - .tmux.conf
   - .gitconfig
-  - .vimrc
 
 # Download directory
 download_dir: "/tmp/ansible"
