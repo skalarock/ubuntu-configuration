@@ -11,7 +11,7 @@
         name: "{{ host_name }}"
         use: systemd
 
-    - name: import the vagrant key
+    - name: Import the vagrant key
       apt_key:
         url: https://apt.releases.hashicorp.com/gpg
         state: present
@@ -22,7 +22,7 @@
         state: present
         update_cache: yes
 
-    - name: import the tailscale key
+    - name: Import the tailscale key
       apt_key:
         url: https://pkgs.tailscale.com/stable/ubuntu/mantic.noarmor.gpg
         state: present
@@ -78,6 +78,11 @@
       apt:
         name:
           - neofetch
+          - nano
+          - htop
+          - youtube-dl
+          - bpytop
+          - glances
           - tmux
           - git
           - podman
@@ -86,10 +91,57 @@
           - ansible
           - tailscale
           - vagrant
+          - vagrant-libvirt
+          - tmux
         state: present
 
-    - name: Remove dependencies that are no longer required
-      apt:
-        autoremove: yes
+    - name: get bash-it
+      git:
+        repo: "{{ bash_it_repo }}"
+        dest: "{{ bash_it_dest }}"
+        version: "{{ bash_it_version }}"
+      become: false
+
+    #- name: install bash-it
+    #  shell:
+    #    cmd: ~/.bash_it/install.sh --silent
+    #  args:
+    #    executable: /bin/bash
+    #  become: false
+
+    - name: configure bash-it theme
+      shell: |
+        echo 'Using Zork bash-it theme.'
+
+        sudo sed -i 's/bobby/zork/g' /home/$USER/.bashrc
+
+        source $HOME/.bashrc
+
+        exit 0
+      args:
+        executable: /bin/bash
+      become: false
+
+    - name: configure bash-it later
+      copy:
+        dest: "{{ bash_it_setup_file }}"
+        content: |
+          echo 'Run commands below to enable aliases, plugins, completions.'
+          echo 'bash-it enable plugin git base alias-completion'
+          echo 'bash-it enable completion git system bash-it'
+          echo 'bash-it enable alias git'
+          echo 'bash-it reload'
+      become: false
+
+    - name: get dotfiles
+      git:
+        repo: "{{ dotfiles_repo }}"
+        dest: "{{ dotfiles_repo_local_destination }}"
+        version: "{{ dotfiles_repo_version }}"
+      become: false
 
     - ping:
+
+    - name: Remove dependencies that are not longer required
+      apt:
+        autoremove: yes

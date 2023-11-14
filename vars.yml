@@ -1,2 +1,22 @@
 ---
 host_name: loken
+username: vagrant
+git_user_name: Dominik Skalican
+git_user_email: dominik.skalican@protonmail.com
+
+bash_it_repo: https://github.com/Bash-it/bash-it.git
+bash_it_dest: ~/.bash_it
+bash_it_version: master
+bash_it_setup_file: $HOME/Configure_Bash_it
+
+dotfiles_home: "~"
+dotfiles_repo_local_destination: "~/dotfiles"
+dotfiles_repo: "https://github.com/skalarock/dotfiles.git"
+dotfiles_repo_version: main
+dotfiles_files:
+  - .tmux.conf
+  - .gitconfig
+  - .vimrc
+
+# Download directory
+download_dir: "/tmp/ansible"

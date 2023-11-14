@@ -1,0 +1,15 @@
+[user]
+  name = Dominik Skalican
+  email = dominik.skalican@protonmail.com
+[core]
+  excludesfile = ~/.gitignore
+  editor = vim
+[color]
+  branch = auto
+  diff = auto
+  interactive = auto
+  status = auto
+[init]
+  defaultBranch = main
+[alias]
+  l = log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit
