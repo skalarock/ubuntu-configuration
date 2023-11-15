@@ -68,12 +68,12 @@
         version: "{{ bash_it_version }}"
       become: false
 
-    - name: install bash-it
-      shell:
-        cmd: ~/.bash_it/install.sh --silent
-      args:
-        executable: /bin/bash
-      become: false
+    #- name: install bash-it
+    #  shell:
+    #    cmd: ~/.bash_it/install.sh --silent
+    #  args:
+    #    executable: /bin/bash
+    #  become: false
 
     - name: configure bash-it theme
       shell: |
@@ -128,9 +128,18 @@
         dest: "{{ dotfiles_home }}/{{ item }}"
         state: link
         mode: 0644
-        force: yes
+        # force: yes
       become: false
       with_items: "{{ dotfiles_files }}"
+
+    - name: Create podman volume
+      podman_volume:
+        state: present
+        name: "{{ volume_name }}"
+        options:
+          - "device=~/home/$USER/"
+
+    - name: Create podman pod
 
     - ping:
 

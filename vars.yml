@@ -15,7 +15,7 @@ bash_it_setup_file: $HOME/Configure_Bash_it
 
 # dotfiles
 dotfiles_home: "~"
-dotfiles_repo_local_destination: "~/dotfiles"
+dotfiles_repo_local_destination: "~/user_dotfiles"
 dotfiles_repo: "https://github.com/skalarock/dotfiles.git"
 dotfiles_repo_version: main
 dotfiles_files:
@@ -67,3 +67,6 @@ packages_to_install:
   - vagrant
   - vagrant-libvirt
   - tmux
+
+# podman configuration
+volume_name: LibSQL
