@@ -11,6 +11,8 @@ The playbook installs and configures most of the software I use on my machine wh
     3. Check ansible version: `ansible --version`
 
 2. Clone or download this repository to your local drive.
+3. Run `ansible-galaxy install -r requirements.yml` inside this directory to install required Ansible collections.
+4. Run `ansible-playbook main.yml --ask-become-pass` inside this directory.
 
 ## Testing the playbook
 
