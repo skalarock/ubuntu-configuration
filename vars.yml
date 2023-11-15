@@ -1,14 +1,19 @@
 ---
+# general
 host_name: loken
 username: vagrant
+
+# git
 git_user_name: Dominik Skalican
 git_user_email: dominik.skalican@protonmail.com
 
+# bash-it
 bash_it_repo: https://github.com/Bash-it/bash-it.git
 bash_it_dest: ~/.bash_it
 bash_it_version: master
 bash_it_setup_file: $HOME/Configure_Bash_it
 
+# dotfiles
 dotfiles_home: "~"
 dotfiles_repo_local_destination: "~/dotfiles"
 dotfiles_repo: "https://github.com/skalarock/dotfiles.git"
@@ -20,3 +25,45 @@ dotfiles_files:
 
 # Download directory
 download_dir: "/tmp/ansible"
+
+# flatpak
+flatpak_packages:
+  - org.inkscape.Inkscape
+  - org.shotcut.Shotcut
+  - org.gimp.GIMP
+  - com.obsproject.Studio
+  - org.audacityteam.Audacity
+  - ch.protonmail.protonmail-bridge
+  - com.discordapp.Discord
+  - com.github.tchx84.Flatseal
+  - com.heroicgameslauncher.hgl
+  - com.valvesoftware.Steam
+  - io.github.RodZill4.Material-Maker
+  - md.obsidian.Obsidian
+  - org.blender.Blender
+  - org.keepassxc.KeePassXC
+  - org.mozilla.Thunderbird
+  - org.mozilla.firefox
+  - org.signal.Signal
+  - org.telegram.desktop
+  - org.godotengine.Godot
+  - org.kde.krita
+
+# packages
+packages_to_install:
+  - neofetch
+  - nano
+  - htop
+  - youtube-dl
+  - bpytop
+  - glances
+  - tmux
+  - git
+  - podman
+  - skopeo
+  - buildah
+  - ansible
+  - tailscale
+  - vagrant
+  - vagrant-libvirt
+  - tmux

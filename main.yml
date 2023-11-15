@@ -52,48 +52,14 @@
       community.general.flatpak:
         remote: flathub
         method: user
-        name:
-          - org.inkscape.Inkscape
-          - org.shotcut.Shotcut
-          - org.gimp.GIMP
-          - com.obsproject.Studio
-          - org.audacityteam.Audacity
-          - ch.protonmail.protonmail-bridge
-          - com.discordapp.Discord
-          - com.github.tchx84.Flatseal
-          - com.heroicgameslauncher.hgl
-          - com.valvesoftware.Steam
-          - io.github.RodZill4.Material-Maker
-          - md.obsidian.Obsidian
-          - org.blender.Blender
-          - org.keepassxc.KeePassXC
-          - org.mozilla.Thunderbird
-          - org.mozilla.firefox
-          - org.signal.Signal
-          - org.telegram.desktop
-          - org.godotengine.Godot
-          - org.kde.krita
+        name: "{{ item }}"
+      with_items: "{{ flatpak_packages }}"
 
     - name: Install packages
       apt:
-        name:
-          - neofetch
-          - nano
-          - htop
-          - youtube-dl
-          - bpytop
-          - glances
-          - tmux
-          - git
-          - podman
-          - skopeo
-          - buildah
-          - ansible
-          - tailscale
-          - vagrant
-          - vagrant-libvirt
-          - tmux
+        name: "{{ item }}"
         state: present
+      with_items: "{{ packages_to_install }}"
 
     - name: get bash-it
       git:
@@ -102,12 +68,12 @@
         version: "{{ bash_it_version }}"
       become: false
 
-    #- name: install bash-it
-    #  shell:
-    #    cmd: ~/.bash_it/install.sh --silent
-    #  args:
-    #    executable: /bin/bash
-    #  become: false
+    - name: install bash-it
+      shell:
+        cmd: ~/.bash_it/install.sh --silent
+      args:
+        executable: /bin/bash
+      become: false
 
     - name: configure bash-it theme
       shell: |
@@ -162,7 +128,7 @@
         dest: "{{ dotfiles_home }}/{{ item }}"
         state: link
         mode: 0644
-        #force: yes
+        force: yes
       become: false
       with_items: "{{ dotfiles_files }}"
 
