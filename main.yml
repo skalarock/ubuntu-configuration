@@ -68,12 +68,12 @@
         version: "{{ bash_it_version }}"
       become: false
 
-    #- name: install bash-it
-    #  shell:
-    #    cmd: ~/.bash_it/install.sh --silent
-    #  args:
-    #    executable: /bin/bash
-    #  become: false
+    - name: install bash-it
+      shell:
+        cmd: ~/.bash_it/install.sh --silent
+      args:
+        executable: /bin/bash
+      become: false
 
     - name: configure bash-it theme
       shell: |
@@ -97,7 +97,7 @@
           echo 'bash-it enable completion git system bash-it'
           echo 'bash-it enable alias git'
           echo 'bash-it reload'
-      become: false
+      # become: false
 
     - name: get dotfiles
       git:
@@ -128,18 +128,26 @@
         dest: "{{ dotfiles_home }}/{{ item }}"
         state: link
         mode: 0644
-        # force: yes
+        force: yes
       become: false
       with_items: "{{ dotfiles_files }}"
 
+    - name: Create podman pod
+      containers.podman.podman_pod:
+        name: learn-sql
+        state: started
+        ports:
+          - "9876:80"
+          - "5432:5432"
+      become: false
+
     - name: Create podman volume
-      podman_volume:
+      containers.podman.podman_volume:
         state: present
         name: "{{ volume_name }}"
         options:
           - "device=~/home/$USER/"
-
-    - name: Create podman pod
+      become: false
 
     - ping:
 
