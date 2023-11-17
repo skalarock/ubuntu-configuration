@@ -1,0 +1,29 @@
+- name: update cache and upgrade
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item.name | default(item) }}"
+    state: present
+  with_items: "{{ packages_to_install }}"
+  register: install_result
+  when: packages_to_install is defined
+
+- name: Remove useless packages from the cache
+  become: true
+  ansible.builtin.apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  become: true
+  ansible.builtin.apt:
+    autoremove: yes
+
+- name: Run the equivalent of "apt-get clean" as a separate step
+  become: true
+  apt:
+    clean: yes

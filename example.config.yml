@@ -77,6 +77,7 @@ flatpak_packages:
   - org.kde.krita
 
 # Application packages
+add_packages: true
 packages_to_install:
   - neofetch
   - nano
@@ -95,11 +96,3 @@ packages_to_install:
   - vagrant-libvirt
   - tmux
   - nala
-
-# Install PIP packages
-pip_packages:
-  - name: pip
-    state: latest
-
-# Podman configuration
-volume_name: LibSQL

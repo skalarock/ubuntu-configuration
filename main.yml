@@ -16,9 +16,6 @@
     - role: geerlingguy.dotfiles
       when: configure_dotfiles
       tags: ["dotfiles"]
-    #- role: petermosmans.customize-gnome
-    #  when: configure_gnome
-    #  tags: ["gnome"]
 
   tasks:
     - name: Include hostname configuration
@@ -34,9 +31,15 @@
 
     - name: Include repositories configuration
       ansible.builtin.import_tasks:
-        file: tasks/repositiories.yml
+        file: tasks/repositories.yml
       when: add_repositories
       tags: ["repositories"]
+
+    - name: Include packages configuration
+      ansible.builtin.import_tasks:
+        file: tasks/packages.yml
+      when: add_packages
+      tags: ["packages"]
 
     - name: Include flatpak packages task configuration
       ansible.builtin.import_tasks:
@@ -67,18 +70,3 @@
         file: tasks/sudoers.yml
       when: configure_sudoers
       tags: ["sudoers"]
-
-    - name: update cache and upgrade
-      apt: update_cache=yes upgrade=safe cache_valid_time=3600
-
-    - name: Install packages
-      apt:
-        name: "{{ item }}"
-        state: present
-      with_items: "{{ packages_to_install }}"
-
-    - ping:
-
-    - name: Remove dependencies that are not longer required
-      apt:
-        autoremove: yes
