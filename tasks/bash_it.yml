@@ -1,0 +1,37 @@
+- name: get bash-it
+  git:
+    repo: "{{ bash_it_repo }}"
+    dest: "{{ bash_it_dest }}"
+    version: "{{ bash_it_version }}"
+  become: false
+
+- name: install bash-it
+  shell:
+    cmd: ~/.bash_it/install.sh --silent
+  args:
+    executable: /bin/bash
+  become: false
+
+- name: configure bash-it theme
+  shell: |
+    echo 'Using Zork bash-it theme.'
+
+    sudo sed -i 's/bobby/zork/g' /home/$USER/.bashrc
+
+    source $HOME/.bashrc
+
+    exit 0
+  args:
+    executable: /bin/bash
+  become: false
+
+- name: configure bash-it later
+  copy:
+    dest: "{{ bash_it_setup_file }}"
+    content: |
+      echo 'Run commands below to enable aliases, plugins, completions.'
+      echo 'bash-it enable plugin git base alias-completion'
+      echo 'bash-it enable completion git system bash-it'
+      echo 'bash-it enable alias git'
+      echo 'bash-it reload'
+  # become: false

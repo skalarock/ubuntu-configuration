@@ -1,0 +1,24 @@
+- name: Import the vagrant key
+  become: true
+  apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+    state: present
+
+- name: Add repository vagrant
+  become: true
+  apt_repository:
+    repo: "deb https://apt.releases.hashicorp.com lunar main"
+    state: present
+    update_cache: yes
+
+- name: Import the tailscale key
+  become: true
+  apt_key:
+    url: https://pkgs.tailscale.com/stable/ubuntu/mantic.noarmor.gpg
+    state: present
+
+- name: Add repository tailscale
+  become: true
+  apt_repository:
+    repo: "deb https://pkgs.tailscale.com/stable/ubuntu lunar main"
+    state: present

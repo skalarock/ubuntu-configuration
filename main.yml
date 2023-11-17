@@ -26,38 +26,47 @@
         file: tasks/hostname.yml
       tags: ["hostname"]
 
+    - name: Include directories task configuration.
+      ansible.builtin.import_tasks:
+        file: tasks/directories.yml
+      when: create_directories
+      tags: ["dirs"]
+
+    - name: Include repositories configuration
+      ansible.builtin.import_tasks:
+        file: tasks/repositiories.yml
+      when: add_repositories
+      tags: ["repositories"]
+
     - name: Include flatpak packages task configuration
       ansible.builtin.import_tasks:
         file: tasks/flatpak.yml
-      tags: ["flatpak"]
       when: install_flatpak
+      tags: ["flatpak"]
 
-    - name: Include tmux task configuration.
+    - name: Include tmux task configuration
       ansible.builtin.import_tasks:
         file: tasks/tmux.yml
       when: configure_tmux
       tags: ["tmux"]
 
-    - name: Import the vagrant key
-      apt_key:
-        url: https://apt.releases.hashicorp.com/gpg
-        state: present
+    - name: Include fonts task configuration
+      ansible.builtin.import_tasks:
+        file: tasks/fonts.yml
+      when: install_fonts
+      tags: ["fonts"]
 
-    - name: Add repository vagrant
-      apt_repository:
-        repo: "deb https://apt.releases.hashicorp.com lunar main"
-        state: present
-        update_cache: yes
+    - name: Include bash-it task configuration
+      ansible.builtin.import_tasks:
+        file: tasks/bash_it.yml
+      when: install_bash_it
+      tags: ["bash_it"]
 
-    - name: Import the tailscale key
-      apt_key:
-        url: https://pkgs.tailscale.com/stable/ubuntu/mantic.noarmor.gpg
-        state: present
-
-    - name: Add repository tailscale
-      apt_repository:
-        repo: "deb https://pkgs.tailscale.com/stable/ubuntu lunar main"
-        state: present
+    - name: Include sudoers task configuration.
+      ansible.builtin.import_tasks:
+        file: tasks/sudoers.yml
+      when: configure_sudoers
+      tags: ["sudoers"]
 
     - name: update cache and upgrade
       apt: update_cache=yes upgrade=safe cache_valid_time=3600
@@ -67,61 +76,6 @@
         name: "{{ item }}"
         state: present
       with_items: "{{ packages_to_install }}"
-
-    - name: get bash-it
-      git:
-        repo: "{{ bash_it_repo }}"
-        dest: "{{ bash_it_dest }}"
-        version: "{{ bash_it_version }}"
-      become: false
-
-    - name: install bash-it
-      shell:
-        cmd: ~/.bash_it/install.sh --silent
-      args:
-        executable: /bin/bash
-      become: false
-
-    - name: configure bash-it theme
-      shell: |
-        echo 'Using Zork bash-it theme.'
-
-        sudo sed -i 's/bobby/zork/g' /home/$USER/.bashrc
-
-        source $HOME/.bashrc
-
-        exit 0
-      args:
-        executable: /bin/bash
-      become: false
-
-    - name: configure bash-it later
-      copy:
-        dest: "{{ bash_it_setup_file }}"
-        content: |
-          echo 'Run commands below to enable aliases, plugins, completions.'
-          echo 'bash-it enable plugin git base alias-completion'
-          echo 'bash-it enable completion git system bash-it'
-          echo 'bash-it enable alias git'
-          echo 'bash-it reload'
-      # become: false
-
-    - name: Create podman pod
-      containers.podman.podman_pod:
-        name: learn-sql
-        state: started
-        ports:
-          - "9876:80"
-          - "5432:5432"
-      become: false
-
-    - name: Create podman volume
-      containers.podman.podman_volume:
-        state: present
-        name: "{{ volume_name }}"
-        options:
-          - "device=~/home/$USER/"
-      become: false
 
     - ping:
 

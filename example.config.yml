@@ -9,10 +9,24 @@ host_name: loken
 # Set user to be used for configuration
 username: "{{ lookup('env', 'USER') }}"
 
+# Create custom directories
+create_directories: true
+directories:
+  - $HOME/Learning/repositories/
+
+# Add repositories
+add_repositories: true
+
+# Enable passwordless sudo
+configure_sudoers: true
+sudoers_custom_config: |
+  # Allow users in sudo group to use sudo with no password.
+  %sudo ALL=(ALL) NOPASSWD: ALL
+
 # Dotfiles
 configure_dotfiles: true
 dotfiles_home: "~"
-dotfiles_repo_local_destination: "~/user_dotfiles"
+dotfiles_repo_local_destination: "~/Learning/repositories/user_dotfiles"
 dotfiles_repo: "https://github.com/skalarock/dotfiles.git"
 dotfiles_repo_accept_hostkey: true
 dotfiles_repo_version: main
@@ -21,11 +35,8 @@ dotfiles_files:
   - .tmux.conf
   - .gitconfig
 
-# Git
-git_user_name: Dominik Skalican
-git_user_email: dominik.skalican@protonmail.com
-
 # Bash-it
+install_bash_it: true
 bash_it_repo: https://github.com/Bash-it/bash-it.git
 bash_it_dest: ~/.bash_it
 bash_it_version: master
@@ -39,6 +50,7 @@ tmux_dir: $HOME/.tmux
 install_fonts: true
 installed_nerdfonts:
   - Meslo
+  - Ubuntu Font
 
 # Install flatpak and listed packages
 install_flatpak: true
