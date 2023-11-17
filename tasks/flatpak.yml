@@ -1,0 +1,22 @@
+---
+- name: Install flatpak (missing in the distro)
+  become: true
+  ansible.builtin.apt:
+    name: flatpak
+    state: latest
+
+- name: Add the flathub flatpak repository remote to the user installation
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user
+
+- name: Install flatpaks (flathub)
+  community.general.flatpak:
+    name: "{{ item }}"
+    state: "{{ item.state | default('present') }}"
+    remote: "{{ item.remote | default('flathub') }}"
+    method: "{{ item.method | default('user') }}"
+  with_items: "{{ flatpak_packages }}"
+  when: flatpak_packages is defined

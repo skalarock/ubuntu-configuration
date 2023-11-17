@@ -1,32 +1,47 @@
 ---
-# general
+# General
+
+# Set hostname
 host_name: loken
-username: vagrant
 
-# git
-git_user_name: Dominik Skalican
-git_user_email: dominik.skalican@protonmail.com
+# User space
 
-# bash-it
-bash_it_repo: https://github.com/Bash-it/bash-it.git
-bash_it_dest: ~/.bash_it
-bash_it_version: master
-bash_it_setup_file: $HOME/Configure_Bash_it
+# Set user to be used for configuration
+username: "{{ lookup('env', 'USER') }}"
 
-# dotfiles
+# Dotfiles
+configure_dotfiles: true
 dotfiles_home: "~"
 dotfiles_repo_local_destination: "~/user_dotfiles"
 dotfiles_repo: "https://github.com/skalarock/dotfiles.git"
+dotfiles_repo_accept_hostkey: true
 dotfiles_repo_version: main
 dotfiles_files:
   - .vimrc
   - .tmux.conf
   - .gitconfig
 
-# Download directory
-download_dir: "/tmp/ansible"
+# Git
+git_user_name: Dominik Skalican
+git_user_email: dominik.skalican@protonmail.com
 
-# flatpak
+# Bash-it
+bash_it_repo: https://github.com/Bash-it/bash-it.git
+bash_it_dest: ~/.bash_it
+bash_it_version: master
+bash_it_setup_file: $HOME/Configure_Bash_it
+
+# Install and configure tmux
+configure_tmux: true
+tmux_dir: $HOME/.tmux
+
+# Install Nerd Fonts
+install_fonts: true
+installed_nerdfonts:
+  - Meslo
+
+# Install flatpak and listed packages
+install_flatpak: true
 flatpak_packages:
   - org.inkscape.Inkscape
   - org.shotcut.Shotcut
@@ -49,7 +64,7 @@ flatpak_packages:
   - org.godotengine.Godot
   - org.kde.krita
 
-# packages
+# Application packages
 packages_to_install:
   - neofetch
   - nano
@@ -67,6 +82,12 @@ packages_to_install:
   - vagrant
   - vagrant-libvirt
   - tmux
+  - nala
 
-# podman configuration
+# Install PIP packages
+pip_packages:
+  - name: pip
+    state: latest
+
+# Podman configuration
 volume_name: LibSQL
