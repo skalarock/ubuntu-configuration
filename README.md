@@ -44,7 +44,7 @@ Testing is done via using Vagrant where `Vagrantfile` and a `main.yml` files are
   vagrant destroy --force && vagrant up --provision
   ```
 
-> Vagrantfile will use `test_vagrant.yml` file as the `Ansible` entrypoint.
+> Vagrantfile will use `main.yml` file as the `Ansible` entrypoint.
 >
 > Box name `generic/ubuntu2304` - <https://app.vagrantup.com/generic/boxes/ubuntu2304>
 >
